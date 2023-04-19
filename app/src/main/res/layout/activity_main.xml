@@ -205,7 +205,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button15"
+                android:id="@+id/btnout"
                 android:layout_width="0dp"
                 android:layout_height="65dp"
                 android:layout_marginTop="4dp"
@@ -226,6 +226,7 @@
         android:gravity="right"
         android:text="0"
         android:textSize="24sp"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -251,6 +252,7 @@
         android:gravity="right"
         android:text=""
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"

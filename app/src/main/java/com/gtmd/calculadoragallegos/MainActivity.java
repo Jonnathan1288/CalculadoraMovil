@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvResult, tvCalculo;
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
-    private Button btnsum, btnres, btndiv, btnmul, btnc, btnigual;
+    private Button btnsum, btnres, btndiv, btnmul, btnc, btnigual, btnout;
 
     private Integer aux, longitud = 0;
     private String valor = "";
@@ -42,22 +42,28 @@ public class MainActivity extends AppCompatActivity {
         btnres = (Button) findViewById(R.id.btnresta);
         btndiv = (Button) findViewById(R.id.btndiv);
         btnmul = (Button) findViewById(R.id.btnmul);
-
         btnc = (Button) findViewById(R.id.btnc);
         btnigual = (Button) findViewById(R.id.btnigual);
-
         tvCalculo = (TextView) findViewById(R.id.tvCalculo);
         tvResult = (TextView) findViewById(R.id.tvResultado);
+        btnout = (Button) findViewById(R.id.btnout);
 
     }
 
     private void event_button(){
+        btnout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                aux = 0;
                tvCalculo.setText("0");
                tvResult.setText("");
+               pintado = "";
             }
         });
 
@@ -255,47 +261,63 @@ public class MainActivity extends AppCompatActivity {
                 String valueOperator = tvCalculo.getText().toString();
                 String[] valores;
                 Integer numero1=0, numero2=0;
-                if(valueOperator.contains("+")){
-                    valores = valueOperator.split("\\+");
-                    numero1 = Integer.parseInt(valores[0]);
-                    numero2 = Integer.parseInt(valores[1]);
-                    Toast.makeText(MainActivity.this, ""+(numero1+numero2), Toast.LENGTH_SHORT).show();
-                } else if (valueOperator.contains("-")) {
-                    valores = valueOperator.split("-");
-                    numero1 = Integer.parseInt(valores[0]);
-                    numero2 = Integer.parseInt(valores[1]);
-                } else if (valueOperator.contains("*")) {
-                    valores = valueOperator.split("\\*");
-                    numero1 = Integer.parseInt(valores[0]);
-                    numero2 = Integer.parseInt(valores[1]);
-                } else if (valueOperator.contains("/")) {
-                    valores = valueOperator.split("/");
-                    numero1 = Integer.parseInt(valores[0]);
-                    numero2 = Integer.parseInt(valores[1]);
-                }
+                char lastChar = tvCalculo.getText().toString().charAt(tvCalculo.getText().toString().length() - 1);
+                try {
 
-                switch (valor){
-                    case "+":
-                        numero2 = 0;
-                        aux = (numero1 + numero2);
-                        tvResult.setText(""+aux);
-                        break;
-                    case "-":
-                        numero2 = 0;
-                        aux = (numero1 - numero2);
-                        tvResult.setText(""+aux);
-                        break;
-                    case "*":
-                        numero2 = 0;
-                        aux = (numero1 * numero2);
-                        tvResult.setText(""+aux);
-                        break;
-                    case "/":
-                        numero2 = 0;
-                        aux = (numero1 / numero2);
-                        tvResult.setText(""+aux);
+                    if(lastChar == '*' || lastChar == '-' || lastChar == '*' || lastChar == '/'){
+                        tvResult.setText(tvCalculo.getText().toString());
+                    }else {
+                        if(valueOperator.contains("+")){
+                            valores = valueOperator.split("\\+");
+                            numero1 = Integer.parseInt(valores[0]);
+                            numero2 = Integer.parseInt(valores[1]);
+                            Toast.makeText(MainActivity.this, ""+(numero1+numero2), Toast.LENGTH_SHORT).show();
+                        } else if (valueOperator.contains("-")) {
+                            valores = valueOperator.split("-");
+                            numero1 = Integer.parseInt(valores[0]);
+                            numero2 = Integer.parseInt(valores[1]);
+                        } else if (valueOperator.contains("*")) {
+                            valores = valueOperator.split("\\*");
+                            numero1 = Integer.parseInt(valores[0]);
+                            numero2 = Integer.parseInt(valores[1]);
+                        } else if (valueOperator.contains("/")) {
+                            valores = valueOperator.split("/");
+                            numero1 = Integer.parseInt(valores[0]);
+                            numero2 = Integer.parseInt(valores[1]);
+                        }
 
-                        break;
+                        switch (valor) {
+                            case "+":
+
+                                aux = (numero1 + numero2);
+                                tvResult.setText("" + aux);
+                                break;
+                            case "-":
+
+                                aux = (numero1 - numero2);
+                                tvResult.setText("" + aux);
+                                break;
+                            case "*":
+
+                                aux = (numero1 * numero2);
+                                tvResult.setText("" + aux);
+                                break;
+                            case "/":
+                                if(numero2 == 0){
+                                    tvResult.setText(numero1+" -> null");
+                                }else{
+                                    aux = (numero1 / numero2);
+                                }
+                                tvResult.setText("" + aux);
+
+                                break;
+                        }
+                    }
+                }catch (Exception e){
+                    Toast.makeText(MainActivity.this, "Sintaxis no aceptada.", Toast.LENGTH_SHORT).show();
+                    aux = 0;
+                    tvCalculo.setText("0");
+                    pintado = "";
                 }
             }
         });
